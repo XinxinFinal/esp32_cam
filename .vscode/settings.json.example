@@ -1,0 +1,16 @@
+{
+  // 复制本文件为 settings.json 并把路径改成你机器上的实际值。
+  // settings.json 已被 .gitignore 忽略，不会提交。
+  "idf.adapterTargetName": "esp32",
+  "idf.port": "/dev/cu.usbserial-0001",
+  "idf.flashType": "UART",
+
+  // 官方安装器（.espressif）自带的独立 Python 与工具链路径
+  "idf.espIdfPath": "/Users/<you>/esp/esp-idf",
+  "idf.pythonBinPath": "/Users/<you>/.espressif/python_env/idf5.x_py3.11_env/bin/python",
+  "idf.toolsPath": "/Users/<you>/.espressif",
+
+  // 执行 source $IDF_PATH/export.sh 后运行 `echo $PATH` 得到下面两项
+  "idf.customExtraPaths": "/Users/<you>/.espressif/tools/xtensa-esp-elf/<tool>/xtensa-esp-elf/bin:/Users/<you>/.espressif/tools/cmake/<ver>/CMake.app/Contents/bin",
+  "idf.customExtraVars": "{\"OPENOCD_SCRIPTS\": \"/Users/<you>/.espressif/tools/openocd-esp32/<ver>/openocd-esp32/share/openocd/scripts\", \"IDF_CCACHE_ENABLE\": \"1\"}"
+}

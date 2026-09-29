@@ -1,0 +1,17 @@
+# ESP-IDF 构建产物
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+
+# 机器相关（含绝对路径），用 .example 模板替代
+.vscode/settings.json
+.idea/
+
+# 系统文件
+.DS_Store
+
+# 工具缓存与本地配置
+.cache/
+.claude/

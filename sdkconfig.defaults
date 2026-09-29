@@ -1,0 +1,25 @@
+# =============================================================
+# ESP32-CAM 家庭摄像头 — sdkconfig.defaults
+# 板型：AI-Thinker ESP32-CAM（ESP32-D0WD + 4MB flash + 4MB PSRAM + OV2640）
+# 这些值在 `idf.py reconfigure` 时固化进 sdkconfig。
+# =============================================================
+
+# ---- 分区表：自定义，见 partitions.csv ----
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# ---- Flash（AI-Thinker 原版 4MB，40MHz DIO 最稳）----
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHFREQ_40M=y
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+
+# ---- PSRAM（4MB，摄像头帧缓冲必需）----
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_BOOT_INIT=y
+CONFIG_SPIRAM_USE_CAPS_ALLOC=y
+
+# ---- 主任务栈（摄像头初始化吃栈，给足余量）----
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+
+# ---- mDNS 服务数量 ----
+CONFIG_MDNS_MAX_SERVICES=8

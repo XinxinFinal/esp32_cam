@@ -1,0 +1,5 @@
+dependencies:
+  # AI-Thinker ESP32-CAM 摄像头驱动（OV2640）
+  espressif/esp32-camera: "^2.0.0"
+  # mDNS（ESP-IDF v5.x 起移出主仓库，需从组件仓库拉取）
+  espressif/mdns: "^1.2.0"

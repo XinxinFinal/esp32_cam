@@ -1,0 +1,6 @@
+# Name,     Type, SubType, Offset,   Size,     Flags
+# 4MB flash。v1 只用单个 factory 应用分区（约 3.9MB），暂不上 OTA。
+# NVS 24KB（存 WiFi/MQTT 凭据 + 启动计数）。
+nvs,        data, nvs,     0x9000,   0x6000,
+phy_init,   data, phy,     0xf000,   0x1000,
+factory,    app,  factory, 0x10000,  0x3F0000,
