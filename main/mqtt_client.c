@@ -148,11 +148,14 @@ static void publish_telemetry(void)
 
 static void telemetry_task(void *arg)
 {
+    /* 先等首次连接就绪（避免连上前发送被丢弃），随后立即发一次，
+     * 让 HA 传感器上电即有值，不必空等一个周期。 */
+    vTaskDelay(pdMS_TO_TICKS(3000));
     while (1) {
-        vTaskDelay(pdMS_TO_TICKS(60000));
         if (s_client != NULL) {
             publish_telemetry();
         }
+        vTaskDelay(pdMS_TO_TICKS(60000));
     }
 }
 

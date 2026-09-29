@@ -15,7 +15,7 @@
 | 项 | 方案 |
 |---|---|
 | 配网 | SoftAP + 网页门户 + Captive Portal 自动弹窗 |
-| 实时画面 | 局域网 MJPEG（`/stream`），HA 用 `mjpeg` 集成拉流 |
+| 实时画面 | 局域网 MJPEG（**81 端口** `/stream`），HA 用 `mjpeg` 集成拉流 |
 | 事件上云 | Mosquitto MQTT，只传状态/控制/诊断，不推图片 |
 | mDNS | `esp32cam-xxxx.local` |
 
@@ -51,8 +51,12 @@ HTTP 明文，WiFi 密码会明文过那段链路（已确认接受该取舍）�
 上电后自动向 `homeassistant/...` 发布 **HA MQTT Discovery**，HA 会自动创建：
 `Free Heap`、`WiFi RSSI`、`Uptime` 三个传感器 + `Reboot` 按钮。
 
-> MJPEG 摄像头实体需要手动在 HA 添加 `mjpeg` 集成，URL 填
-> `http://esp32cam-xxxx.local/stream`（或直接用 IP）。
+> MJPEG 摄像头实体需要手动在 HA 添加 `mjpeg` 集成：
+> - MJPEG stream URL：`http://esp32cam-xxxx.local:81/stream`
+> - Still image URL（可选，抓拍）：`http://esp32cam-xxxx.local/capture`
+>
+> 注意流在 **81 端口**、抓拍在 80 端口。分端口是为了推流时不阻塞控制页/抓拍。
+> 同一时刻只允许一路 `/stream` 客户端，第二路返回 503。
 
 ## 目录结构
 
@@ -65,7 +69,7 @@ main/
 ├── wifi_mgr.c/.h     # WiFi 状态机（STA/AP、退避重连）
 ├── provisioning.c/.h # 配网门户（HTTP + Captive Portal DNS）
 ├── camera.c/.h       # OV2640 初始化
-├── http_server.c/.h  # 本地 Web（状态页 + MJPEG）
+├── http_server.c/.h  # 本地 Web（状态页/抓拍 :80 + MJPEG :81）
 ├── mdns_announce.c/.h# mDNS 广播
 └── mqtt_client.c/.h  # MQTT + HA Discovery
 ```
@@ -98,6 +102,6 @@ idf.py -p /dev/cu.usbserial-0001 flash monitor
 - [x] NVS 存储 + 启动计数（3 次快速重启清凭据）
 - [x] WiFi 状态机（指数退避重连）
 - [x] 配网门户（SoftAP + HTTP + Captive Portal + DNS）
-- [x] 摄像头 + 本地 HTTP/MJPEG + mDNS
+- [x] 摄像头 + 本地 HTTP（状态页/抓拍 :80，MJPEG :81，单客户端保护）+ mDNS
 - [x] MQTT + Home Assistant Discovery
 - [ ] 移动侦测（v2 计划）
