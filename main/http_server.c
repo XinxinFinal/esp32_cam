@@ -23,7 +23,7 @@ static httpd_handle_t s_ctrl_server = NULL;
 static httpd_handle_t s_stream_server = NULL;
 
 /* MJPEG 单客户端保护：fb_count=2，多路并发拉流会互抢帧缓冲，限一路。 */
-static atomic_bool s_stream_busy = ATOMIC_VAR_INIT(false);
+static atomic_bool s_stream_busy = false;
 
 #define PART_BOUNDARY "123456789000000000000987654321"
 #define STREAM_PORT   81
